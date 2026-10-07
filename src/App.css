@@ -1,0 +1,29 @@
+@property --page-a { syntax: '<color>'; inherits: true; initial-value: #dff1fb; }
+@property --page-b { syntax: '<color>'; inherits: true; initial-value: #a9d3ee; }
+@property --ink    { syntax: '<color>'; inherits: true; initial-value: #17324a; }
+
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+
+.page {
+  --page-a: #dff1fb; --page-b: #a9d3ee; --ink: #17324a;
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  place-items: center;
+  gap: 28px;
+  overflow: hidden;
+  color: var(--ink);
+  background: radial-gradient(120% 120% at 50% 0%, var(--page-a), var(--page-b));
+  transition: --page-a 1.6s ease, --page-b 1.6s ease, --ink 1.6s ease;
+}
+.page[data-night="true"] { --page-a: #0e1630; --page-b: #03050d; --ink: #c9d6f5; }
+
+.label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  opacity: .75;
+  user-select: none;
+}

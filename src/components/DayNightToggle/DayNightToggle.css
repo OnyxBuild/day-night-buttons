@@ -1,0 +1,158 @@
+@property --dnt-sky-top  { syntax: '<color>'; inherits: true; initial-value: #2b7fd6; }
+@property --dnt-sky-mid  { syntax: '<color>'; inherits: true; initial-value: #6fb8f0; }
+@property --dnt-sky-bot  { syntax: '<color>'; inherits: true; initial-value: #cfe9f7; }
+@property --dnt-far      { syntax: '<color>'; inherits: true; initial-value: #8fb0c9; }
+@property --dnt-main     { syntax: '<color>'; inherits: true; initial-value: #6f8798; }
+@property --dnt-shade    { syntax: '<color>'; inherits: true; initial-value: #4f6677; }
+@property --dnt-snow     { syntax: '<color>'; inherits: true; initial-value: #ffffff; }
+@property --dnt-hill     { syntax: '<color>'; inherits: true; initial-value: #4d7a55; }
+@property --dnt-pine     { syntax: '<color>'; inherits: true; initial-value: #1f4a3a; }
+@property --dnt-lake-top { syntax: '<color>'; inherits: true; initial-value: #5aa5c7; }
+@property --dnt-lake-bot { syntax: '<color>'; inherits: true; initial-value: #2d6f93; }
+@property --dnt-cloud    { syntax: '<color>'; inherits: true; initial-value: #ffffff; }
+@property --dnt-glint    { syntax: '<color>'; inherits: true; initial-value: #fff1bd; }
+@property --dnt-haze     { syntax: '<color>'; inherits: true; initial-value: #ffffff; }
+
+.dnt {
+  --dnt-t: 1.6s;
+  --dnt-sky-top: #2b7fd6; --dnt-sky-mid: #6fb8f0; --dnt-sky-bot: #cfe9f7;
+  --dnt-far: #8fb0c9; --dnt-main: #6f8798; --dnt-shade: #4f6677; --dnt-snow: #fff;
+  --dnt-hill: #4d7a55; --dnt-pine: #1f4a3a;
+  --dnt-lake-top: #5aa5c7; --dnt-lake-bot: #2d6f93;
+  --dnt-cloud: #fff; --dnt-glint: #fff1bd; --dnt-haze: #fff;
+
+  transition: var(--dnt-t) cubic-bezier(.6, .05, .2, 1);
+  transition-property:
+    --dnt-sky-top, --dnt-sky-mid, --dnt-sky-bot, --dnt-far, --dnt-main, --dnt-shade, --dnt-snow,
+    --dnt-hill, --dnt-pine, --dnt-lake-top, --dnt-lake-bot, --dnt-cloud, --dnt-glint, --dnt-haze,
+    transform, box-shadow;
+
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  width: min(440px, 88vw);
+  aspect-ratio: 2 / 1;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #000;
+  isolation: isolate;
+  box-shadow:
+    0 0 0 6px rgba(255, 255, 255, .55), 0 0 0 7px rgba(0, 0, 0, .12),
+    0 30px 60px -18px rgba(20, 60, 100, .55), 0 12px 24px -10px rgba(0, 0, 0, .35);
+  -webkit-tap-highlight-color: transparent;
+}
+.dnt:hover  { transform: scale(1.025); }
+.dnt:active { transform: scale(.985); }
+.dnt:focus-visible { outline: 3px solid #fff; outline-offset: 6px; }
+
+.dnt[data-night="true"] {
+  --dnt-sky-top: #04061a; --dnt-sky-mid: #0d1738; --dnt-sky-bot: #27386a;
+  --dnt-far: #1b2745; --dnt-main: #16203a; --dnt-shade: #0a1123; --dnt-snow: #a9bbe0;
+  --dnt-hill: #0d1828; --dnt-pine: #040913;
+  --dnt-lake-top: #0c1a38; --dnt-lake-bot: #050b1b;
+  --dnt-cloud: #3a4770; --dnt-glint: #dce8ff; --dnt-haze: #6d84c4;
+  box-shadow:
+    0 0 0 6px rgba(150, 175, 255, .22), 0 0 0 7px rgba(0, 0, 0, .5),
+    0 30px 70px -18px rgba(70, 100, 255, .45), 0 12px 24px -10px rgba(0, 0, 0, .7);
+}
+
+.dnt svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* reflet de verre + ombre intérieure */
+.dnt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+  box-shadow:
+    inset 0 6px 14px rgba(0, 0, 0, .35), inset 0 -4px 12px rgba(0, 0, 0, .25),
+    inset 0 0 0 1px rgba(255, 255, 255, .18);
+  background: linear-gradient(165deg, rgba(255, 255, 255, .22) 0%, rgba(255, 255, 255, 0) 32%);
+}
+
+/* paysage */
+.dnt-far   { fill: var(--dnt-far); }
+.dnt-main  { fill: var(--dnt-main); }
+.dnt-shade { fill: var(--dnt-shade); opacity: .55; }
+.dnt-snow  { fill: var(--dnt-snow); }
+.dnt-hill  { fill: var(--dnt-hill); }
+.dnt-pine  { fill: var(--dnt-pine); }
+.dnt-cloud { fill: var(--dnt-cloud); }
+
+/* astres : ils se couchent derrière la montagne */
+.dnt-sun, .dnt-moon, .dnt-glint {
+  transition: transform var(--dnt-t) cubic-bezier(.55, .05, .25, 1), opacity var(--dnt-t) ease;
+}
+.dnt-moon { transform: translate(0, 170px); }
+.dnt[data-night="true"] .dnt-sun   { transform: translate(-60px, 170px); }
+.dnt[data-night="true"] .dnt-moon  { transform: translate(0, 0); }
+.dnt[data-night="true"] .dnt-glint { transform: translateX(-180px); }
+
+.dnt-rays { transform-origin: 300px 60px; animation: dnt-spin 40s linear infinite; }
+.dnt-sunglow { transform-origin: 300px 60px; animation: dnt-pulse 5s ease-in-out infinite; }
+@keyframes dnt-spin  { to { transform: rotate(360deg); } }
+@keyframes dnt-pulse { 50% { transform: scale(1.12); opacity: .85; } }
+
+/* nuages */
+.dnt-clouds { transition: opacity var(--dnt-t) ease; }
+.dnt[data-night="true"] .dnt-clouds { opacity: .55; }
+.dnt-c { animation: dnt-drift linear infinite; }
+@keyframes dnt-drift { from { transform: translateX(-160px); } to { transform: translateX(600px); } }
+
+/* étoiles */
+.dnt-stars { opacity: 0; transition: opacity var(--dnt-t) ease .3s; }
+.dnt[data-night="true"] .dnt-stars { opacity: 1; }
+.dnt-star { animation: dnt-twinkle ease-in-out infinite; }
+@keyframes dnt-twinkle { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+.dnt-shoot { opacity: 0; animation: dnt-shoot 9s linear infinite 3s; }
+@keyframes dnt-shoot {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  2%   { opacity: 1; }
+  9%   { opacity: 0; transform: translate(-120px, 60px); }
+  100% { opacity: 0; transform: translate(-120px, 60px); }
+}
+
+/* oiseaux (jour) / lucioles (nuit) */
+.dnt-birds { transition: opacity var(--dnt-t) ease; }
+.dnt[data-night="true"] .dnt-birds { opacity: 0; }
+.dnt-bird { fill: none; stroke: #1b2b3a; stroke-width: 1.3; stroke-linecap: round; animation: dnt-fly linear infinite; }
+.dnt-bird path { animation: dnt-flap .5s ease-in-out infinite alternate; }
+@keyframes dnt-flap {
+  from { d: path("M0 40 q3 -4 6 0 q3 -4 6 0"); }
+  to   { d: path("M0 40 q3 2.5 6 0 q3 2.5 6 0"); }
+}
+@keyframes dnt-fly { from { transform: translate(-30px, 0); } to { transform: translate(480px, -18px); } }
+
+.dnt-flies { opacity: 0; transition: opacity var(--dnt-t) ease .4s; }
+.dnt[data-night="true"] .dnt-flies { opacity: 1; }
+.dnt-fly {
+  fill: #e8ff9a;
+  filter: drop-shadow(0 0 3px #d7ff5a);
+  animation: dnt-float ease-in-out infinite alternate, dnt-blink 2.4s ease-in-out infinite;
+}
+@keyframes dnt-float { to { transform: translate(var(--dx), var(--dy)); } }
+@keyframes dnt-blink { 0%, 100% { opacity: .1; } 50% { opacity: 1; } }
+
+/* eau */
+.dnt-shimmer line { stroke: #fff; stroke-linecap: round; opacity: 0; animation: dnt-shim ease-in-out infinite; }
+.dnt[data-night="true"] .dnt-shimmer line { stroke: #9db6ff; }
+@keyframes dnt-shim { 0%, 100% { opacity: 0; transform: scaleX(.6); } 50% { opacity: .5; transform: scaleX(1); } }
+.dnt-gl {
+  fill: var(--dnt-glint);
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: dnt-glit 2.6s ease-in-out infinite alternate;
+}
+@keyframes dnt-glit { from { transform: scaleX(.65); opacity: .55; } to { transform: scaleX(1.1); opacity: .95; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .dnt *, .dnt *::before, .dnt *::after {
+    animation-duration: .001s !important;
+    animation-iteration-count: 1 !important;
+  }
+}
